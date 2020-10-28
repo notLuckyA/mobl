@@ -8,12 +8,13 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:text="Spin" />
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="45dp"
+        android:text="Крутим" />
 
     <TextView
         android:id="@+id/textView"
@@ -37,7 +38,21 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_above="@+id/weel"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/down" />
+
+    <EditText
+        android:id="@+id/vvod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="15dp"
+        android:layout_marginBottom="70dp"
+        android:maxLines="1"
+        android:maxLength="2"
+        android:inputType="phone"
+        android:hint="Введите число из колеса"
+        android:text=""/>
 
 </RelativeLayout>
