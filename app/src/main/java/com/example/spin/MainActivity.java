@@ -15,49 +15,58 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    //объявляем
     Button button;
     TextView textView;
     ImageView weel;
-    EditText vvod2;
     EditText vvod;
     Random rd;
-    int st = 0, sto = 0;
 
+    int st = 0, sto = 0;
+    // Задаём постоянный градус
     private static final float Factor = 4.86f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // задаём ресурсы
         vvod = (EditText) findViewById(R.id.vvod);
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
         weel = (ImageView) findViewById(R.id.weel);
 
-
+    // случайное число
         rd = new Random();
 
-
+        // слушатель кнопки
         button.setOnClickListener(new View.OnClickListener() {
+            // при клике
             @Override
             public void onClick(View v) {
+                // делим и возвращаем остаток
                 sto = st % 360;
+                // интервал случайных чисел
                 st = rd.nextInt(3600) + 720;
+                //задаём анимацию вращения
                 RotateAnimation rotate = new RotateAnimation(sto, st,
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                // интервал времени
                 rotate.setDuration(3600);
+                //сохраняется изменение после анимации
                 rotate.setFillAfter(true);
                 rotate.setInterpolator(new DecelerateInterpolator());
+                //слушатель анимации
                 rotate.setAnimationListener(new Animation.AnimationListener() {
+                    // при старте текст пустой
                     @Override
                     public void onAnimationStart(Animation animation) {
                         textView.setText("");
                     }
-
+                    // при окончании анимации присваиваем
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        textView.setText(cn(360 - (st % 360)));
+                       textView.setText(cn(360 - (st % 360)));
                     }
 
                     @Override
@@ -65,14 +74,18 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+                // крутим колесо
                 weel.startAnimation(rotate);
             }
         });
     }
 
-    private String cn(int stt) {
+    private String cn (int stt) {
+        //считываем число из строки
         int e = Integer.parseInt(vvod.getText().toString());
+        //задаём полю "ничего"
         String text = "";
+        //
         if (stt >= (Factor * 1) && stt < (Factor * 3)) {
             if (e == 32) {
                 text = "You win";
@@ -332,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                 text = "You lose";
             }
         }
-
+    // возвращение сначения
         return text;
     }
 }
