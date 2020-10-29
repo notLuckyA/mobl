@@ -21,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:text="" />
@@ -45,15 +44,14 @@
 
     <EditText
         android:id="@+id/vvod"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:textSize="15dp"
         android:layout_marginBottom="70dp"
         android:maxLines="1"
         android:maxLength="2"
-        android:inputType="phone"
-        android:hint="Введите число из колеса"
-        android:text=""/>
+        android:inputType="number"
+        android:text="0"/>
 
 </RelativeLayout>

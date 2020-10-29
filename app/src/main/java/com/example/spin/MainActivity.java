@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     EditText vvod;
     Random rd;
 
-    int st = 0, sto = 0;
+    int st = 0, sto = 0, e = 0;
     // Задаём постоянный градус
     private static final float Factor = 4.86f;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView);
         weel = (ImageView) findViewById(R.id.weel);
 
-    // случайное число
+        // случайное число
         rd = new Random();
 
         // слушатель кнопки
@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // делим и возвращаем остаток
                 sto = st % 360;
-                // интервал случайных чисел
                 st = rd.nextInt(3600) + 720;
                 //задаём анимацию вращения
                 RotateAnimation rotate = new RotateAnimation(sto, st,
@@ -63,10 +62,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onAnimationStart(Animation animation) {
                         textView.setText("");
                     }
+
                     // при окончании анимации присваиваем
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                       textView.setText(cn(360 - (st % 360)));
+                        textView.setText(cn(360 - (st % 360)));
+                        //vvod.setText("");
                     }
 
                     @Override
@@ -80,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private String cn (int stt) {
+    private String cn(int stt) {
         //считываем число из строки
-        int e = Integer.parseInt(vvod.getText().toString());
+         e = Integer.parseInt(vvod.getText().toString());
         //задаём полю "ничего"
         String text = "";
-        //
+        //хитрая схема
         if (stt >= (Factor * 1) && stt < (Factor * 3)) {
             if (e == 32) {
                 text = "You win";
@@ -345,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
                 text = "You lose";
             }
         }
-    // возвращение сначения
+        // возвращение сначения
         return text;
     }
 }
