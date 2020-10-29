@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String cn(int stt) {
         int e = Integer.parseInt(vvod.getText().toString());
-
         String text = "";
         if (stt >= (Factor * 1) && stt < (Factor * 3)) {
             if (e == 32) {
