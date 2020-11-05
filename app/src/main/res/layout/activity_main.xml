@@ -44,14 +44,15 @@
 
     <EditText
         android:id="@+id/vvod"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:textSize="15dp"
         android:layout_marginBottom="70dp"
         android:maxLines="1"
         android:maxLength="2"
+        android:hint="Введите число из круга"
         android:inputType="number"
-        android:text="0"/>
+        android:text=""/>
 
 </RelativeLayout>
