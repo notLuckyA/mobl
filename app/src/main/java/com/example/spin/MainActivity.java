@@ -2,7 +2,12 @@ package com.example.spin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -18,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     //объявляем
     Button button;
     TextView textView;
+    TextView textView2;
     ImageView weel;
     EditText vvod;
     Random rd;
@@ -25,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     int st = 0, sto = 0, e;
     // Задаём постоянный градус
     private static final float Factor = 4.86f;
+    public static final String APP_PREFERENCES = "mysettings";
+    public static final String APP_PREFERENCES_COUNTER = "num";
+    private SharedPreferences mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
         vvod = (EditText) findViewById(R.id.vvod);
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
+        textView2 = (TextView) findViewById(R.id.textView2);
         weel = (ImageView) findViewById(R.id.weel);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         // случайное число
         rd = new Random();
@@ -45,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 e = Integer.parseInt(vvod.getText().toString());
+
                 if (e < 37) {
                     // делим и возвращаем остаток
                     sto = st % 360;
@@ -59,17 +71,17 @@ public class MainActivity extends AppCompatActivity {
                     rotate.setInterpolator(new DecelerateInterpolator());
                     //слушатель анимации
                     rotate.setAnimationListener(new Animation.AnimationListener() {
-                        // при старте текст пустой
+                        // при старте очищаем текст
                         @Override
                         public void onAnimationStart(Animation animation) {
                             textView.setText("");
+                            textView2.setText("");
                         }
 
                         // при окончании анимации присваиваем
                         @Override
                         public void onAnimationEnd(Animation animation) {
                             textView.setText(cn(360 - (st % 360)));
-                            //vvod.setText("");
                         }
 
                         @Override
@@ -80,16 +92,57 @@ public class MainActivity extends AppCompatActivity {
                     // крутим колесо
                     weel.startAnimation(rotate);
                 } else {
+                    // выводим ошибку
                     textView.setText("error");
                 }
             }
-
         });
     }
 
-    private String cn(int stt) {
-        //считываем число из строки (кастыль)
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Запоминаем данные
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putInt(APP_PREFERENCES_COUNTER, e);
+        editor.apply();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mSettings.contains(APP_PREFERENCES_COUNTER)) {
+            // Получаем число из настроек
+            e = mSettings.getInt(APP_PREFERENCES_COUNTER, 0);
+            // Выводим на экран данные из настроек
+            textView2.setText("Ваш прошлый выбор: " + e);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startSettings() {
+
+    }
+
+    private String cn(int stt) {
         //задаём полю "ничего"
         String text = "";
         //хитрая схема
@@ -352,10 +405,11 @@ public class MainActivity extends AppCompatActivity {
                 text = "You lose";
             }
         }
-        // возвращение сначения
+        // возвращение значение
         return text;
     }
 
 }
+
 
 
