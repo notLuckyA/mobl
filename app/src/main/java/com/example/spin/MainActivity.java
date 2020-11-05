@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     int st = 0, sto = 0, e;
     // Задаём постоянный градус
     private static final float Factor = 4.86f;
+    // Задаём название файлу и ключу
     public static final String APP_PREFERENCES = "mysettings";
     public static final String APP_PREFERENCES_COUNTER = "num";
     private SharedPreferences mSettings;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // задаём ресурсы
+        // объявляем
         vvod = (EditText) findViewById(R.id.vvod);
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 e = Integer.parseInt(vvod.getText().toString());
-
+                // Проверяем правильность ввода
                 if (e < 37) {
                     // делим и возвращаем остаток
                     sto = st % 360;
@@ -99,23 +100,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Запоминаем данные при закрытии
     @Override
     protected void onPause() {
         super.onPause();
-        // Запоминаем данные
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt(APP_PREFERENCES_COUNTER, e);
         editor.apply();
     }
 
+    // Получаем и выводим число из настроек при повторном старте
     @Override
     protected void onResume() {
         super.onResume();
-
         if (mSettings.contains(APP_PREFERENCES_COUNTER)) {
-            // Получаем число из настроек
             e = mSettings.getInt(APP_PREFERENCES_COUNTER, 0);
-            // Выводим на экран данные из настроек
             textView2.setText("Ваш прошлый выбор: " + e);
         }
     }
@@ -127,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // клик в меню
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
